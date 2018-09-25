@@ -1,10 +1,11 @@
-import React, { Component} from 'react';
+import React, { Component } from 'react';
 import EmptyWrapper from '../../hoc/EmptyWrapper';
 
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
+import axios from '../../axios-orders';
 
 const INGREDIENT_PRICES = {
   salad: 0.5,
@@ -29,19 +30,19 @@ class BurgerBuilder extends Component {
 
   updatePurchaseState = (ingredients) => {
     const sum = Object.keys(ingredients)
-      .map( igKey => {
+      .map(igKey => {
         return ingredients[igKey];
       })
       .reduce((sum, el) => {
         return sum + el;
-      },0);
+      }, 0);
 
     this.setState({ purchasable: sum > 0 });
   }
 
   addIngredientHandler = (type) => {
     const oldCount = this.state.ingredients[type];
-    const updatedCount  = oldCount + 1;
+    const updatedCount = oldCount + 1;
     const updatedIngredients = {
       ...this.state.ingredients
     };
@@ -58,10 +59,10 @@ class BurgerBuilder extends Component {
 
   removeIngredientHandler = (type) => {
     const oldCount = this.state.ingredients[type];
-    if(oldCount <=0 ) {
+    if (oldCount <= 0) {
       return;
     }
-    const updatedCount  = oldCount - 1;
+    const updatedCount = oldCount - 1;
     const updatedIngredients = {
       ...this.state.ingredients
     };
@@ -81,23 +82,41 @@ class BurgerBuilder extends Component {
   }
 
   purchaseCancelHandler = () => {
-    this.setState({ purchasing: false});
+    this.setState({ purchasing: false });
   }
 
   purchaseContinueHandler = () => {
-    alert("You Continue!");
+    // alert("You Continue!");
+    const order = {
+      ingredients: this.state.ingredients,
+      price: this.state.totalPrice,
+      customer: {
+        name: 'Sandip Vindoray Ravaliya',
+        address: {
+          street: 'High',
+          zipCode: '99999',
+          country: 'Heaven'
+        },
+        email: 'love.you@my.place'
+      },
+      deliveryMethod: 'moderate'
+    }
+    axios.post('/orders.json', order)
+      .then(response => { console.log(response) })
+      .catch(error => { console.log(error) });
+
   }
 
-  render(){
+  render() {
     const disabledInfo = {
       ...this.state.ingredients
     };
 
-    for(let key in disabledInfo) {
+    for (let key in disabledInfo) {
       disabledInfo[key] = disabledInfo[key] <= 0
     }
 
-    return(
+    return (
       <EmptyWrapper>
         <Modal show={this.state.purchasing} modalClosed={this.purchaseCancelHandler} >
           <OrderSummary
