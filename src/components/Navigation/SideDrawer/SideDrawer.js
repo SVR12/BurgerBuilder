@@ -4,19 +4,19 @@ import Logo from '../../Logo/Logo';
 import NavigationItems from '../NavigationItems/NavigationItems';
 import classes from './SideDrawer.css';
 import Backdrop from '../../UI/Backdrop/Backdrop';
-import EmptyWrapper from '../../../hoc/EmptyWrapper';
+import EmptyWrapper from '../../../hoc/EmptyWrapper/EmptyWrapper';
 
 const sideDrawer = (props) => {
-  let attachedClasses = [ classes.SideDrawer, classes.Close ];
-  if(props.open) {
-    attachedClasses = [ classes.SideDrawer, classes.Open ];
+  let attachedClasses = [classes.SideDrawer, classes.Close];
+  if (props.open) {
+    attachedClasses = [classes.SideDrawer, classes.Open];
   }
-  return(
+  return (
     <EmptyWrapper>
       <Backdrop show={props.open} clicked={props.closed} />
       <div className={attachedClasses.join(" ")} >
         <div className={classes.Logo} >
-          <Logo/>
+          <Logo />
         </div>
         <nav>
           <NavigationItems />

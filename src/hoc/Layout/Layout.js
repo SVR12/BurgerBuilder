@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import EmptyWrapper from '../../hoc/EmptyWrapper';
+import EmptyWrapper from '../../hoc/EmptyWrapper/EmptyWrapper';
 import classes from './Layout.css';
 import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
 import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer';
 
 class layout extends Component {
-  
+
   state = {
     showSideDrawer: false,
   }
@@ -15,20 +15,20 @@ class layout extends Component {
   }
 
   sideDrawerToggleHandler = () => {
-    this.setState((prevState)=>{
+    this.setState((prevState) => {
       return { showSideDrawer: !prevState.showSideDrawer };
     });
   }
 
-  render(){
-    return(
+  render() {
+    return (
       <EmptyWrapper>
-      <Toolbar drawerToggleClicked={this.sideDrawerToggleHandler} />
-      <SideDrawer open={this.state.showSideDrawer} closed={this.sideDrawerClosedHandler} />
-      <main className={classes.Content} >
-        {this.props.children}
-      </main>
-    </EmptyWrapper>
+        <Toolbar drawerToggleClicked={this.sideDrawerToggleHandler} />
+        <SideDrawer open={this.state.showSideDrawer} closed={this.sideDrawerClosedHandler} />
+        <main className={classes.Content} >
+          {this.props.children}
+        </main>
+      </EmptyWrapper>
     );
   }
 };
