@@ -1,4 +1,4 @@
 
-const EmptyWrapper = (props) => props.children;
+const emptyWrapper = (props) => props.children;
 
-export default EmptyWrapper;
+export default emptyWrapper;
